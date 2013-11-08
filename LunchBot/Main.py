@@ -123,7 +123,5 @@ def main():
 
 
 if __name__ == '__main__':
-    print('start')
-    while True:
-        exec(input('>>>'))
+    main()
 
