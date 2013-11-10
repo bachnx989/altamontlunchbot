@@ -11,8 +11,9 @@ class Schedule(object): #Bullds a schedule object
         self.schedule = self.read_data(data)
 
     def read_data(self,data):
-        data = re.findall('(?<={).+(?=})',data) # Find all instances of text between { }s
-        raw_list = data[0].split(',')
+
+        data_n_a = re.findall('(?<={).+?(?=})',data) # Find all instances of text between { }s
+        raw_list = data.split(',')
         return(
             [
             re.findall('(?:^|\|)(.+?)(?=$|\|)',period) for period in raw_list
@@ -56,19 +57,18 @@ class Schedule(object): #Bullds a schedule object
         raw_text = '{'+self.user+'}'+'{'+raw_schedule+'}'
         return raw_text
 
+class Period(object):
+    """
+    A single class period. Stores class name, elective data, period, and whether the class (or elective) is affiliated with 1st or 2nd lunch.
+    """
+    def __init__(self,class_name,period,lunch='Upper_School'):
+        self.period = period
+        self.lunch = lunch
+        if type(class_name) == list:
+            self.elective = True
+        else:
+            self.class_name = class_name[0]
 
-
-
-
-
-
-#try:
-#    f = open('schedules.txt','r')
-#    pickle.load(f)
-#except FileNotFoundError:
-#    schedules = {}
-
-user_list = []
 
 def add_to_schedule(schedule_object):
     user_dict[schedule_object.user]=schedule_object
@@ -90,11 +90,14 @@ class User(object):
 
 
     def __init__(self,*args):
+        print('args: '+str(args))
         if len(args) == 2:
             self.user = args[0]
             self.schedule_text = args[1]
         else:
-            parts = re.findall('(?<={).+(?=})',args[0])
+            parts = re.findall('(?<={).+?(?=})',args[0])
+            print('parts: '+str(parts))
+            print('args[0]: '+str(args[0]))
             self.user = parts[0]
             self.schedule_text = parts[1]
         self.schedule = Schedule(self.schedule_text)
@@ -124,20 +127,17 @@ class User(object):
 def build_from_file():
 
     try:
-        saved_schedules = open('schedules.txt','r')
-        raw_text = saved_schedules.read()
-        saved_schedules.close()
+        with open('schedules.txt','r') as saved_schedules:
+            raw_text = saved_schedules.read()
     except FileNotFoundError: # Called if schedules.txt doesn't exist
         return {}
     users_raw = raw_text.split('\n')
     print(raw_text)
-    user_dict = {}
+
     for raw in users_raw:
         if not re.findall('\w',raw):
             continue
-        user_object = User(raw)
-        user_dict[user_object.user] = user_object
-    return user_dict
+        User(raw)
 user_dict = {}
 def dump_to_file():
     try:
@@ -153,10 +153,7 @@ def dump_to_file():
 
 if __name__ == '__main__':
     while True:
-        try:
-            exec(input('>'))
-        except Exception as e:
-            print(e)
+        exec(input('>>>'))
 
 
 
