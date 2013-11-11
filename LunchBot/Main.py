@@ -1,6 +1,20 @@
 __author__ = 'Simon'
 
-import re
+import re,sys,traceback
+
+class TracebackDecorator(object):
+    def __init__(self,func):
+        self.func = func
+
+    def process_tb(self,file=None):
+        traceback.print_exc(file=file)
+
+    def __call__(self,*args):
+        try:
+            self.func(*args)
+        except:
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            traceback.print_tb(exc_traceback)
 
 help_text = """There 2 ways to use lunchbot: general and targeted.
 
@@ -97,7 +111,7 @@ class TextMessage(Mail):
         return reply
 
 
-
+@TracebackDecorator
 def main():
     calendar_url = 'http://www.altamontschool.org/calendars/index.aspx?ModuleID=52:53:93'
     global calendar_data
