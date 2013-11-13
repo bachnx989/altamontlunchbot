@@ -6,7 +6,7 @@ from datetime import timedelta,date
 
 from bs4 import BeautifulSoup
 
-from LunchBot.datetime_timezone import LocalTime
+from datetime_timezone import LocalTime
 
 
 url = 'http://www.altamontschool.org/calendars/index.aspx?ModuleID=52:53:93' # URL for website calendar page containing relevant data. 52 = letter day, 53 = lunch, 93 = priority
