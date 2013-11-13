@@ -41,8 +41,15 @@ class Mail(object):
         for part in self.mail.walk():
             ctype = part.get_content_type()
             if ctype == attachment_type:
-                open(part.get_filename(), 'wb').write(part.get_payload(decode=True)) # Drop the attachment to a file
-                attachment = open(part.get_filename(),'r') # Grab a file handle for the dropped attachment
+                try:
+                    with open(part.get_filename(), 'wb') as write_handle: # Drop the attachment to a file
+                        write_handle.write(part.get_payload(decode=True))
+                    attachment = open(part.get_filename(),'r') # Grab a file handle for the dropped attachment
+                except Exception as e:
+                    print(e)
+                    with open(part.get_filename(),'wb') as empty_file:
+                        pass
+                    attachment = open(part.get_filename(),'r')
                 break
 
         return attachment # return the handle.

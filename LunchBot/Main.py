@@ -124,7 +124,7 @@ def main():
     # note Main Loop
 
     while True:
-        msgs_raw = IMAP_conn.wait_for_message(SMTP_conn) # SMTP_conn is passed as an arg so that it gets noop()'d when IMAP_conn idles.
+        msgs_raw = IMAP_conn.wait_for_message() # SMTP_conn is passed as an arg so that it gets noop()'d when IMAP_conn idles.
         if type(msgs_raw) == str:
             msgs_raw = [msgs_raw]
         for msg_raw in msgs_raw:
