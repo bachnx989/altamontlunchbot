@@ -1,7 +1,8 @@
 import smtplib
 
-class SMTP_Connection(object): # todo Come up with a way to noop() every ~5 minutes instead of ditching the connection and starting over. (Maybe call noop from IMAP?)
 
+
+class SMTP_Connection(object):
     def __init__(self,host='smtp.gmail.com',user='altamontlunchbot@gmail.com',pwd='lunchbotpassword',port=465,ssl=True):
         """
         Constructs an SMTP connection class to send messages

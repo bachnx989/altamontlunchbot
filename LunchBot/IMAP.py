@@ -28,10 +28,11 @@ class IMAP_Connection(object):
         return conn
 
 
-    def wait_for_message(self):
+    def wait_for_message(self,SMTP_conn):
         try:
             self.conn.idle()
             while True:
+                SMTP_conn.noop()
                 response = self.conn.idle_check(600)
                 if response:
                     raise IdleInterrupt
