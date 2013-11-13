@@ -1,6 +1,6 @@
 __author__ = 'Simon'
 
-import re,sys,datetime
+import re
 
 class Schedule(object): #Bullds a schedule object
 

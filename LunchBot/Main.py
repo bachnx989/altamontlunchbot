@@ -27,9 +27,9 @@ help_text = """There 2 ways to use lunchbot: general and targeted.
         Text 'help' to get this response.
         Lunchbot written, implemented, and (selectively) maintained by Simon."""
 
-from LunchBot import IMAP,SMTP,scrape
-from LunchBot.datetime_timezone import LocalTime
-from LunchBot.Mail import Mail
+import IMAP,SMTP,scrape
+from datetime_timezone import LocalTime
+from Mail import Mail
 import urllib.request
 
 calendar_data = scrape.get_calendar_days()
